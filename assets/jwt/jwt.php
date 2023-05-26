@@ -1,25 +1,40 @@
 <?php
 
+require "../../vendor/autoload.php";
+
 /*
 * JWT para encriptografar as chaves 
 * Key para decriptografar as chaves
 */
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
+$dotenv = Dotenv\Dotenv::createUnsafeImmutable('../../env');
+$dotenv->load();
 
-require "../../vendor/autoload.php";
+//chave da criptografia
+$key = getenv('jwt_key');
 
-/*
-*chave da criptografia
-*orientado guardar em .env
-*/
-$key = hash('sha256','Minha_chave_secreta');
+//Tratamentos de datas
+date_default_timezone_set('America/Sao_Paulo');
+$dia = date('Y-m-d H:i:s');
+$add_dia = '86400';//valor de 24 horas em segundos
+
+//função para acrescer tempo em segundos
+function acresceTempo($valor, $tempo)
+{
+    $data = (strtotime($valor)) + $tempo; //+acrescenta tempo (24h)
+    $resultado = date('Y-m-d H:i:s', $data);
+    return $resultado;
+}
+
+//Cria a data de expiração para 24h, após a data atual
+$fim = acresceTempo($dia, $add_dia);
 
 //data criação token
-$created_at_key = strtotime("2023-05-25 20:08:00");
+$created_at_key = strtotime($dia);
 
 //data expiração token
-$exp = strtotime("2023-05-26 20:08:00");
+$exp = strtotime($fim);
 
 /*
 * Inserimos no payload o conteúdo
