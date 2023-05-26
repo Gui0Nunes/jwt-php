@@ -52,7 +52,7 @@ $jwt = JWT::encode($payload, $key, 'HS256', null, $headers);
 $decoded = JWT::decode($jwt, new Key($key,'HS256'));
 // $decoded = json_encode($decoded);
 
-//print decodificado do conteúdo
+//print do JWT codificado
 echo "<strong> Print do JWT codificado:</strong><br>";
 echo $jwt ;
 
