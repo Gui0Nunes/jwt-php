@@ -1,6 +1,6 @@
 #Em produção retirar esses comentarios
 #Comentamos para uso no exemplo
-#/env 
+/env 
 /vendor
 /config
-
+/env/*
